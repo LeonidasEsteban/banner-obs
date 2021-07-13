@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import Banner from './components/banner'
+import { useEffect, useState } from 'react'
+import { bannerList } from './utils/courses'
+
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 function App() {
+
+  const [banner, setBanner] = useState(bannerList[getRandomInt(0, bannerList.length)])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBanner(bannerList[getRandomInt(0, bannerList.length)])
+    }, 60000);
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Banner
+        copy={banner.copy}
+        url={banner.url}
+      />
+    </>
   );
 }
 
